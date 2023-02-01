@@ -2,12 +2,15 @@ const { nanoid } = require("nanoid")
 const books = require('./books')
 
 const addBookHandler = (request, h) => {
-    const {name, year, author, summry, publisher, pageCount, readPage} = request.payload
+    const {name, year, author, summary, publisher, pageCount, readPage} = request.payload
     const id  = nanoid(16)
     const finished = (pageCount === readPage) ? true : false
     const reading = false
     const insertedAt = new Date().toISOString()
     const updatedAt = insertedAt
+
+    console.log(finished)
+
     if(name == undefined || name == null || name.trim().length == 0){
         const response = h.response({
             status: 'fail',
@@ -27,7 +30,7 @@ const addBookHandler = (request, h) => {
     }
 
     const newBook = {
-        id, name, year, author, summry, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
+        id, name, year, author, summary, publisher, pageCount, readPage, finished, reading, insertedAt, updatedAt
     }
 
     books.push(newBook)
@@ -97,7 +100,7 @@ const getBookById = (request, h) => {
 
 const editBookByIdHandler = (request, h) => {
     const { bookId } = request.params
-    const { name, year, author, summry, publisher, pageCount, readPage, finished, reading } = request.payload
+    const { name, year, author, summary, publisher, pageCount, readPage, finished, reading } = request.payload
     const updatedAt = new Date().toISOString()
     const index = books.findIndex((book) => book.id === bookId)
 
@@ -126,7 +129,7 @@ const editBookByIdHandler = (request, h) => {
             name, 
             year, 
             author, 
-            summry, 
+            summary, 
             publisher, 
             pageCount, 
             readPage, 
